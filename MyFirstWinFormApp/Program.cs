@@ -18,7 +18,7 @@ namespace MyFirstWinFormApp
 
 
 			ApplicationConfiguration.Initialize();
-			Application.Run(new TicTacToe());
+			Application.Run(new texteditortest());
 		}
 	}
 }

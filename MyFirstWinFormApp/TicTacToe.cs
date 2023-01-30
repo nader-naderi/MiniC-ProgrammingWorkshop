@@ -43,6 +43,10 @@ namespace MyFirstWinFormApp
             { ' ', ' ', ' ' },
         };
 
+        // Calculation -> remainedCell =: map
+        // Key Value Pair
+        Dictionary<Cell, char> cellMap = new Dictionary<Cell, char>();
+
         char playerOneSymbol = 'O';
         char playerTwoSymbol = 'X';
 
@@ -57,9 +61,12 @@ namespace MyFirstWinFormApp
             {
                 for (int j = 0; j < map.GetLength(1); j++)
                 {
+
                     Cell newCell = new Cell(i, j);
 
                     remainedCells.Add(newCell);
+
+                    cellMap.Add(newCell, ' ');
 
                     if (map[i, j] != ' ')
                         map[i, j] = ' ';
@@ -171,7 +178,6 @@ namespace MyFirstWinFormApp
 
             AI();
         }
-
 
         private void AI()
         {
