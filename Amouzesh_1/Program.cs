@@ -21,7 +21,6 @@ namespace Amouzesh_1
 
 		static void Main(string[] args)
 		{
-
 		}
 	}
 }
