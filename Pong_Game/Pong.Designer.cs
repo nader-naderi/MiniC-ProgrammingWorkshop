@@ -35,6 +35,7 @@
             this.collisionT = new System.Windows.Forms.Timer(this.components);
             this.paddle = new System.Windows.Forms.PictureBox();
             this.ball = new System.Windows.Forms.PictureBox();
+            this.scoreLbl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.paddle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ball)).BeginInit();
             this.SuspendLayout();
@@ -81,20 +82,33 @@
             this.ball.TabIndex = 1;
             this.ball.TabStop = false;
             // 
+            // scoreLbl
+            // 
+            this.scoreLbl.AutoSize = true;
+            this.scoreLbl.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.scoreLbl.Location = new System.Drawing.Point(12, 416);
+            this.scoreLbl.Name = "scoreLbl";
+            this.scoreLbl.Size = new System.Drawing.Size(56, 25);
+            this.scoreLbl.TabIndex = 2;
+            this.scoreLbl.Text = "0000";
+            // 
             // Pong
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.scoreLbl);
             this.Controls.Add(this.ball);
             this.Controls.Add(this.paddle);
             this.Name = "Pong";
             this.Text = "Pong";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Pong_FormClosed);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Pong_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Pong_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.paddle)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ball)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -106,5 +120,6 @@
         private System.Windows.Forms.Timer collisionT;
         private PictureBox paddle;
         private PictureBox ball;
+        private Label scoreLbl;
     }
 }

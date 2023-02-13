@@ -12,6 +12,13 @@ namespace Pong_Game
 {
     public partial class Pong : Form
     {
+        // Details to save:
+        // - Score
+        // - Number of Alive Blocks
+        // - Number of Dead Blocks
+        // - Ball Last Position
+        // - Paddle Last Position
+
         public Pong()
         {
             InitializeComponent();
@@ -23,22 +30,46 @@ namespace Pong_Game
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    PictureBox newBlock = new PictureBox();
-                    newBlock.Size = new Size(50, 20);
-                    newBlock.Location = new Point(i * newBlock.Size.Width, j * newBlock.Size.Height);
-                    newBlock.BackColor = Color.Blue;
-                    newBlock.BorderStyle = BorderStyle.Fixed3D;
-
-                    Controls.Add(newBlock);
-
-                    blocks.Add(newBlock);
+                    CreateBlock(i, j);
                 }
+            }
+
+
+            // Load
+            using (StreamReader streamReader = new StreamReader(saveLocation))
+            {
+                string data = streamReader.ReadToEnd();
+
+                string[] subDatas = new string[4];
+
+                subDatas = data.Split(';');
+
+                score = Convert.ToInt32(subDatas[0]);
+                scoreLbl.Text = "Score: " + score;
+
+                paddle.Location = new Point(Convert.ToInt32(subDatas[1]), 392);
+                ball.Location = new Point(Convert.ToInt32(subDatas[2]), Convert.ToInt32(subDatas[3]));
+
+                streamReader.Close();
             }
         }
 
-        private List<PictureBox> blocks = new List<PictureBox>();
+        private void CreateBlock(int i, int j)
+        {
+            PictureBox newBlock = new PictureBox();
+            newBlock.Size = new Size(50, 20);
+            newBlock.Location = new Point(i * newBlock.Size.Width, j * newBlock.Size.Height);
+            newBlock.BackColor = Color.Blue;
+            newBlock.BorderStyle = BorderStyle.Fixed3D;
 
-        private int speed = 3;
+            Controls.Add(newBlock);
+
+            blocks.Add(newBlock);
+        }
+
+        private List<PictureBox> blocks = new List<PictureBox>();
+        private static string saveLocation = "C:/Users/Nader Naderi/source/repos/Amouzesh_1/SavedData/data.txt";
+        private int speed = 1;
         private int verticalDir = +1;
         private int horizontalDir = +1;
 
@@ -46,11 +77,13 @@ namespace Pong_Game
         private bool left;
         private bool right;
 
+        private int score = 0;
+
         private void horzT_Tick(object sender, EventArgs e)
         {
             if (ball.Left < 0)
                 horizontalDir = 1;
-            else if(ball.Left > (Width - ball.Width))
+            else if (ball.Left > (Width - ball.Width))
                 horizontalDir = -1;
 
             ball.Left += (horizontalDir * speed);
@@ -110,10 +143,27 @@ namespace Pong_Game
             {
                 if (ball.Bounds.IntersectsWith(blocks[i].Bounds))
                 {
-                    Controls.Remove(blocks[i]);
-                    blocks.RemoveAt(i);
+                    DestroyBlock(i);
                 }
             }
+        }
+
+        private void DestroyBlock(int i)
+        {
+            Controls.Remove(blocks[i]);
+            blocks.RemoveAt(i);
+
+            score += 5;
+
+            scoreLbl.Text = "Score: " + score;
+        }
+
+
+        private void Pong_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            StreamWriter textToWrite = new StreamWriter(saveLocation);
+            textToWrite.Write(score.ToString());
+            textToWrite.Close();
         }
     }
 }
